@@ -1,37 +1,42 @@
 html,
 body {
-  margin: 0;
-  padding: 0;
-  text-align: center;
+    margin: 0;
+    padding: 0;
+    text-align: center;
 }
 
 main {
-  width: 100vw;
-  height: 100vh;
-  background-attachment: fixed;  
-  background-size: cover;
-  background-image: url(../img/simcity.jpg);
+    width: 100vw;
+    height: 100vh;
+}
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+main {
+    width: 100vw;
+    height: 100vh;
+    background-attachment: fixed;  
+    background-size: cover;
+    background-image: url(../img/simcity.jpg);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #bomb-container {
-  background-color: black;
-  height: 400px;
-  width: 175px;
-  padding: 0.5em;
+    background-color: black;
+    height: 400px;
+    width: 175px;
+    padding: 0.5em;
 }
 
 div p {
-  color: red;
-  text-align: center;
-  font-size: 1.5em;
+    color: red;
+    text-align: center;
+    font-size: 1.5em;
 }
 
 div button {
-  width: 90%;
-  margin-top: 5%;
-  margin-bottom: 3%;
+    width: 90%;
+    margin-top: 5%;
+    margin-bottom: 3%;
 }
