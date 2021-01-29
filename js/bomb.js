@@ -97,8 +97,8 @@ document.addEventListener('DOMContentLoaded', function () {
     backgroundEl = document.querySelector('main');
     wireBoxEl = document.querySelector('#wirebox');
     wires = wireBoxEl.children;
-    resetBtnEl = document.querySelector('button');
-    timerEl = document.querySelector('p');
+    resetBtnEl = document.querySelector('#reset');
+    timerEl = document.querySelector('#timer');
 
     // Register Event Listeners
     resetBtnEl.addEventListener('click', resetGame);
