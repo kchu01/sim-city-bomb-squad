@@ -24,6 +24,97 @@ replaced with an explosion.
 
 ![exploded](screenshots/03-exploded.png)
 
+
+## Step 1: Getting Started and Project Setup
+---
+
+### You do: (20 min lab) 
+
+To begin, start by linking the css and js files to your `index.html`. Once they are linked correctly, you should see 'loaded' appear in your browser's console.
+
+Next start building these components in html and css, you will need:
+
+*  a div inside `<main>` that will be the container for the timer, the wires and the reset button
+
+* you will also need html elements for the timer, a container for the wires, and a reset button
+
+*HINT flexbox would be a great way to center this div on your webpage*
+
+*HINT the `<main>` is already set to cover the whole, so that is a great place to set the background image. Checkout the css properties `background-attachment` and `background-size`*
+
+* style it nicely and include the wire images
+
+## Step 2: Setting up the Javascript
+___
+
+### We do: (40 min code along) 
+
+#### *Maintaining State*
+
+We need build state in the global scope with everything that the game will need to keep track of.
+
+- a constant for the initial seconds for the timer
+- a variable to store the setInterval for the js timer
+- a variable for how long the timer currently has left.
+- a variable for whether or not the bomb has exploded **ie whether or not the game is over** *hint hint boolean value*
+- an object to keep track of whether or not each wire has been cut *hint hint boolean values*
+- an array to store colors names of the wires that need to be cut in order to defuse the bomb and win the game
+
+#### Create the references to the DOM elements in JS
+
+- a variable to reference the `<main>` element so we can switch the background image on game over
+- a variable to reference the reset button element
+- a variable to store a reference to the timer element
+- an array of wire elements
+- all of these variables should be initially set to `null` and they will be be assigned in the DOM content loaded function
+- register the event listeners in the DOM content loaded function
+
+#### Stubbing out functions and psuedo coding game logic
+
+- we will need a callback function to pass to setInterval and update the bomb's timer
+
+- we will need an onclick function to cut the wires
+
+- we will need initializeGame function to setup the game state
+
+- we will need a endGame function to run if the game is lost or won
+
+- we will need a function for the reset button's click
+
+## Step 3: Building out the InitializeGame function and the updateClock callback function
+---
+
+### You do: (?? min lab) 
+
+To build the timer you need build the initialGame function, the updateClock function and the end game function.
+
+The initializeGame function sets your remaining time variable to 30 seconds. **hint hint use the INITIAL_TIME constant** It will also set an interval that runs updateClock every second and saves it into a game state variable. 
+
+If you run out of time in the update clock function the you should run the endGame function.
+
+## Step 4: Building out endGame function
+---
+
+### You do: (?? min lab) 
+
+In the end game function you have to stop the clock from ticking down. If the parameter isGameWon is passed in as false, you need to set the background image to the explosion. If the game is won, you need to set the color of the timer to green.
+
+## Step 5: Click event functions for resetGame button and cut wireFunction
+---
+
+### You do: (?? min lab) 
+
+The resetGame function will need to set the background image back to the city, set the color of the timer's text to red and clear the countdown interval. You can invoke your initializeGame function at the end to restart the game. 
+
+For now, the cutWire function will need `console.log()` the color of the wire that gets clicked on. **hint hint look inside of the event.target in your console**
+
+## Step 6: Finish game logic in cut wire function
+---
+
+### We do: code along 
+
+
+
 ## Implementation Details
 We're not hanging you out to dry here. Here are some details about how to
 build everything.
