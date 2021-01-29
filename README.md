@@ -1,4 +1,4 @@
-# JavaScript Timers: Sim City Bomb Squad
+# JS Game: Sim City Bomb Squad
 Someone left a bomb in the middle of Sim City. It's your first day on the
 bomb squad and it's your job to defuse it. The entire city is relying on
 you!
