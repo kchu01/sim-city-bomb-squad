@@ -1,4 +1,4 @@
-# JavaScript Timers: Sim City Bomb Squad
+# JS Game: Sim City Bomb Squad
 Someone left a bomb in the middle of Sim City. It's your first day on the
 bomb squad and it's your job to defuse it. The entire city is relying on
 you!
@@ -45,9 +45,6 @@ Since each wire always has a 50/50 chance of needing to be cut there is some var
 in how many wires need to be cut to defuse the bomb each time. Sometimes all the wires
 need to be cut. Sometimes only one wire needs to be cut.
 
-You must decide how your program will keep track of whether each wire should be cut
-or not.
-
 The bomb is considered defused when all the wires that need to be cut are cut.
 
 ### Blowing Up
@@ -57,43 +54,177 @@ the background image should change from showing Sim City to showing the explosio
 After the bomb blows up it should be impossible to cut any more wires. The timer
 should stop whenever the bomb blows up. If an incorrect wire was cut then the
 time should show how much time was on the clock when the bomb exploded. If the
-timer ran all the way to zero then the timer should keep showing zero.
+timer ran all the way to zero then the timer should keep showing zero as the bomb explodes.
 
-The bomb doesn't blow up immediately. There should be a **750 millisecond
-delay** between cutting an incorrect wire and the bomb blowing up. The bomb
-should not blow up if the bomb is defused.
+## Step 1: Getting Started and Project Setup
+---
 
-It's possible to cut an incorrect wire and then quickly cut all the remaining
-correct wires inside the 750 millisecond delay. In this scenario the bomb is
-considered defused and it should not explode.
+### You do: Build the HTML and CSS for the game
+
+To begin, start by linking the css and js files to your `index.html`. Once they are linked correctly, you should see 'loaded' appear in your browser's console.
+
+The goal is to markup and styling like the example
+
+*hint hint flexbox would be a great way to center this div on your webpage*
+
+*hint hint the `<main>` is already set to cover the whole, so that is a great place to set the background image. Checkout the css properties `background-attachment` and `background-size`*
+
+## Step 2: Brainstorming and stubbing out functionality
+___
+
+### We do: Plan out the game functionality and code-along stubbing out the state and functions
+
+#### Maintaining State
+
+Brainstorm what kinds of data the application will need. Think about the timer, the wires, and whether the game is in a win or loss state.
+
+We need build state in the global scope with everything that the game will need to keep track of. 
+
+#### Create the references to the DOM elements in JS
+
+Imagine what DOM elements are going to need to be manipulated by the js. Each one of these elements will need a corresponding variable. Which ones will need event listeners?
+
+#### Stubbing out functions and psuedo coding game logic
+
+Start thinking how the game reacts to user input:
+  
+  - What happens when the user clicks the reset button?
+  - What happens when the user clicks a wire? What if it is the wrong wire?
+  - What happens when the timer reaches runs out?
+
+## Step 3: Making the timer count down 
+---
+
+### You do: Build out the `initializeGame` function and the `updateClock` callback function
+
+To build the timer you first need to set a few things up in the `initialGame` function, then move on to the `updateClock` function.
+
+The initializeGame function sets your remaining time variable to 30 seconds. It will also set an interval that runs updateClock every second and saves it into a game state variable. 
+
+If you run out of time in the `updateClock` function the you should run the `endGame` function.
+
+ *hint hint use the `INITIAL_TIME` constant*
+
+```javascript
+function initializeGame() {
+    // Set the remaining time variable
+
+    // Start the countdown interval
+}
+
+function updateClock() {
+    // Decrement timeRemaining, if there is no time left, end the game
+
+    // Update clock text with the timeRemaining
+}
+```
+
+## Step 4: **GAME OVER**
+---
+
+### You do: Build out `endGame` function
+
+In the `endGame` function you have to stop the clock from ticking down. If the parameter `isGameWon` is passed in as `false`, you need to set the background image to the explosion. If the game is won, you need to set the color of the timer to green.
+
+```javascript
+function endGame(isGameWon) {
+    // Clear the countdown and update gameOver state variable
+
+    // If the passed in isGameWon argument is true, set the timer text to green
+    // Otherwise, change the background image to the explosion
+}
+```
+
+## Step 5: Click Events
+---
+
+### You do: Build out the `cutWire` function and `resetGame` function to handle user clicks
+
+The `resetGame` function will need to set the background image back to the city, set the color of the timer's text to red in case the game was won and clear the countdown interval. You can invoke your `initializeGame` function at the end to restart the game. 
+
+For now, the `cutWire` function will need `console.log()` the color of the wire that gets clicked on. 
+
+*hint hint look inside of the event.target in your `console.log()`*
+
+```javascript
+function resetGame() {
+    // Update the gameOver state variable
+
+    // Display the SimCity bg
+
+    // Set the clock text back to red
+
+    // Clear any intervals or timeouts
+
+    // invoke initializeGame()
+}
+
+
+function cutWire(event) {
+    // console.log the color of the wire that you clicked
+}
+
+
+```
+
+## Step 6: Wrapping Up
+---
+
+### We do: Finish win game logic in cut wire function 
+
+Brainstorm what needs to happen when a wire is cut; its either a good wire or it blows up your city.
+
+in initializeGame we need to reinitialize the game state
+  - reset the `wireState` object
+  - reset the `wiresToCut` array
+  - randomly select wires to cut in order to win and push them to the `wiresToCut` array
+
+```javascript
+function initializeGame() {
+    ...
+    // Reset all game state variables
+    // Randomly select which wires need to be cut
+}
+```
+
+In the `cutWire` function 
+  - return the function immediately if the parent is clicked on and not a wire
+  - if the game is not over and the wire that was clicked is false in `wireState` (ie the is cuttable and has not already been cut)
+    - update the image to a cut wire
+    - update state in the `wireState` object
+    - if the wire is in the `wiresToCut` array, splice it out so the game can continue, otherwise end the game because a wire has been cut that detonated the bomb
+  - if the `wiresToCut` array is empty after all of this, the game is won because all of the good wires have been cut
+
+```javascript
+function cutWire(event) {
+    ...
+    // If the wire is cuttable, cut it, update game state variables and apply the appropriate cut-wire image
+
+    // if it is a good cut, update state, if it is a bad cut, you lose the game
+  
+    // If there's no more wires that need to be cut - win the game
+}
+```
+
+In the the `resetGame` function
+  - iterate over wires and reset all of the image srcs to uncut wires
+
+```javascript
+function resetGame() {
+     ...
+    // Set the wires <img> src back to the uncut pictures
+}
+```
+
+### Bonus: Add a delay after an incorrect wire is cut
+Add a **750 millisecond delay** between cutting an incorrect wire and the bomb blowing up. 
 
 Having a small delay makes people wonder for a moment if they got away with
 cutting a wire before the bomb explodes.
 
-### Maintaining State
-Try to keep global varaibles to a minimum. Compose the structure of your program
-so parameters are passed to functions and return values are used appropriately.
-
-I found it helpful to create variables to keep track of these pieces of
-information:
-- how long the bomb timer should show at the beginning.
-- how long the timer currently has left.
-- whether or not the bomb is currently defused.
-- whether or not the bomb is currently exploded.
-- the number of correct wires already cut
-- which wires are the correct wire to cut
-
-## Requirements
-- Maintain proper indentation through HTML, CSS and JavaScript files.
-- Create CSS classes to encapsulate styling logic. Don't set CSS properties
-  and values in JavaScript manually. Only use JavaScript to `add` and remove
-  class names from an elements `classList`.
-- Use functions to reduce redundancy. For example, our solution code has 40
-  lines of CSS, about 170 lines of JavaScript, and about ten functions.
-- Demonstrate knowing when to use`setInterval` and `setTimeout` appropriately.
-- Use `clearInterval` and `clearTimeout` when timers are no longer needed.
-- Keep the number of global variables to a minimum. The solution code
-  uses six global variables.
+It's possible to cut an incorrect wire and then quickly cut all the remaining
+correct wires inside the 750 millisecond delay. In this scenario the bomb is
+considered defused and it should not explode.
 
 ### Bonus: Add Sounds
 The website will really come alive after adding sound. There's a collection of
@@ -106,7 +237,8 @@ Add the following effects:
 - play the cheering noise if the bomb is defused.
 - play the success song after the cheering finishes playing.
 
-### Bonus: <audio> Specification
+### Bonus: `<audio>` Specification
+
 HTML5 added an `<audio>` tag that makes it easy to add sound to a website.
 
 MDN and W3Schools have good documentation about the audio tag. Go to W3Schools
@@ -159,25 +291,6 @@ first.addEventListener("ended", function() {
 
 first.play();
 ```
-
-Here's some notes from the MDN website explaining these common attributes:
-
-```
-autoplay
-A Boolean attribute; if specified (even if the value is "false"!), the audio
-will automatically begin playback as soon as it can do so, without waiting for
-the entire audio file to finish downloading.
-
-controls
-If this attribute is present, the browser will offer controls to allow
-the user to control audio playback, including volume, seeking, and pause/resume
-playback.
-
-loop
-A Boolean attribute; if specified, will automatically seek back to the
-start upon reaching the end of the audio.
-```
-
 ## Licensing
 All content is licensed under a CC­BY­NC­SA 4.0 license.
 All software code is licensed under GNU GPLv3. For commercial use or alternative licensing, please contact legal@ga.co.
