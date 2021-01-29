@@ -237,7 +237,8 @@ Add the following effects:
 - play the cheering noise if the bomb is defused.
 - play the success song after the cheering finishes playing.
 
-### Bonus: <audio> Specification
+### Bonus: `<audio>` Specification
+
 HTML5 added an `<audio>` tag that makes it easy to add sound to a website.
 
 MDN and W3Schools have good documentation about the audio tag. Go to W3Schools
