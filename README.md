@@ -28,7 +28,7 @@ replaced with an explosion.
 ## Step 1: Getting Started and Project Setup
 ---
 
-### You do: (20 min lab) 
+### You do: Build the HTML and CSS for the game
 
 To begin, start by linking the css and js files to your `index.html`. Once they are linked correctly, you should see 'loaded' appear in your browser's console.
 
@@ -41,7 +41,7 @@ The goal is to markup and styling like the example
 ## Step 2: Brainstorming and stubbing out functionality
 ___
 
-### We do: (1 hr code along) 
+### We do: Plan out the game functionality and code-along stubbing out the state and functions
 
 #### Maintaining State
 
