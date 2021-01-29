@@ -37,8 +37,13 @@ function updateClock() {
 function resetGame() {
     // Update the gameOver state variable
     gameOver = false;
+
     // Step 6: Set the wires <img> src back to the uncut pictures
-    
+    for(wire of wires) {
+        wire.src = `img/uncut-${wire.id}-wire.png`
+    }
+
+
     // Display the SimCity bg
     backgroundEl.style.backgroundImage="url(img/simcity.jpg)"
     
@@ -55,22 +60,51 @@ function resetGame() {
 function initializeGame() {
     // Reset all game state variables
     timeRemaining = INITIAL_TIME;
+    wireState = {
+        blue: false,
+        green: false,
+        red: false,
+        white: false,
+        yellow: false
+    }
+    wiresToCut = [];
+    gameOver = false;
 
     // Star the countdown interval
     countdown = setInterval(updateClock, 1000); // Every second
 
     // Step 6: Randomly select which wires need to be cut
+    for (const color in wireState) {
+        let randoNum = Math.random();
+        if (randoNum > 0.5) {
+            wiresToCut.push(color)
+        }
+    }
 }
 
 function cutWire(event) {
     // Step 5: console.log the color of the wire that you clicked
     if(event.target === wireBoxEl) return;
-    console.log(`you cut the ${event.target.id} wire`)
+    console.log(`you clicked the ${event.target.id} wire`)
+
+    let wireColor = event.target.id;
 
     // Step 6: If the wire is cuttable, cut it, update game state variables,
     // and apply the appropriate cut-wire image
+    if(!gameOver && wireState[wireColor] == false) { // if the wire isn't cut
+        event.target.src = `img/cut-${wireColor}-wire.png`
+        wireState[wireColor] = true; // track that we cut the wire in state
 
-    // If the cut wire was a bad wire - end game
+        // If that wireColor is in our wiresToCut array, splice it!
+        if (wiresToCut.includes(wireColor)) {
+            wiresToCut.splice(wiresToCut.indexOf(wireColor), 1);
+        } else {
+            // If the cut wire was a bad wire - end game
+            endGame(false);
+        }
+    }
+    // If there's no more wires that need to be cut - win the game
+    if(wiresToCut.length == 0) endGame(true);
 }
 
 function endGame(isGameWon) {
