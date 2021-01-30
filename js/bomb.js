@@ -104,9 +104,18 @@ const cutWire = (event) => {
     if(!gameOver && wireState[wireColor] === false) {
         // Cut the wire
         event.target.src = `img/cut-${wireColor}-wire.png`
+        wireState[wireColor] = true;
+        // Did we cut the correct wire?
+        if(wiresToCut.includes(wireColor)) {
+            wiresToCut.splice(wiresToCut.indexOf(wireColor), 1)
+            if(wiresToCut.length === 0) {
+                endGame(true);
+            }
+        } else {
+            endGame(false);
+        }
+        }
     }
-
-}
 
 // Cut wires
 
