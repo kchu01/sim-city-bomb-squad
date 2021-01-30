@@ -1,6 +1,6 @@
 /*----- constants -----*/
 // Initial time
-const initialTime = 30
+const INITIAL_TIME = 30
 
 /*----- app's state (variables) -----*/
 // variable to store timer countdown
@@ -51,15 +51,33 @@ const updateClock = () => {
 
 } 
 
-// Countdown begins
+// Countdown begins and cutting the wires
 
 
 const startGame = () => {
-    console.log('Set the game');
-    timeRemaining = initialTime;
+    timeRemaining = INITIAL_TIME;
+    gameOver = false;
+    wiresToCut = [];
+    wireState = {
+        blue: false,
+        green: false,
+        red: false,
+        white: false,
+        yellow: false
+    }
+
+for(const color in wireState) {
+    let rand = Math.random() // Will give us a random float between 0 and 1
+    if(rand > 0.5) {
+        wireToCut.push(color)
+    }
 }
 
-countdown = setInterval(updateClock, 10000)
+
+    countdown = setInterval(updateClock, 1000)
+}
+
+
 
 /*----- event listeners -----*/
 // event listeners on the wires
@@ -70,22 +88,50 @@ countdown = setInterval(updateClock, 10000)
 // Handles reset button click
 const resetGame = () => {
     console.log('reset game!');
+
+    //timeRemaining = INITIAL_TIME;
+
+    backgroundEl.style.backgroundImage = "url(img/explosion.jpg)";
+    clearInterval(countdown);
+    startGame();
 }
 
 // handles reset button click
 const cutWire = (event) => {
-    console.log('cute a wire', event.target);
+    let wireColor = event.target.id
+    console.log('You cut the', wireColor + ' wire');
+
+    if(!gameOver && wireState[wireColor] === false) {
+        // Cut the wire
+        event.target.src = `img/cut-${wireColor}-wire.png`
+    }
+
 }
 
+// Cut wires
 
 
 
 
 const endGame = (isGameWon) => {
-    console.log('END GAME');
-
+    console.log('END GAME 💣')
+    // Clear the countdown and update gameOver state variable
     clearInterval(countdown);
-} 
+    gameOver = false;
+
+    // If the passed in isGameWon argument is true, set the timer text to green
+    // Otherwise, change the background image to the explosion
+
+    if(isGameWon) {
+        // If we won, change text color to green
+        console.log("Hooray Patrick! We saved the city!")
+        timerEl.style.color = "green"
+    } else {
+        // But if we lost, change the background image to the exploded city pic
+        console.log('Barnacles! The city exploded!')
+        backgroundEl.style.backgroundImage = "url(img/explosion.jpg)";
+    }
+}
 
 
 document.addEventListener('DOMContentLoaded', function () {
