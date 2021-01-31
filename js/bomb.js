@@ -1,15 +1,11 @@
 /*----- constants -----*/
 // Initial time
-const INITIAL_TIME = 30
+const INITIAL_TIME = 30;
 
 /*----- app's state (variables) -----*/
-// variable to store timer countdown
-let timeRemaining = 0
-
-let countdown = null
-
-let gameOver = false
-
+let timeRemaining = 0;
+let gameOver = false;
+let wireToCut = [];
 let wireState = {
     blue: false,
     green: false,
@@ -17,42 +13,51 @@ let wireState = {
     white: false,
     yellow: false
 }
+let countdown = null
 
-let wireToCut = []
+// DOM references
+let backgroundEl = null;
+let wireBoxEl = null;
+let wires = [];
+let resetButtonEl = null;
+let timerEl = null;
 
-/*----- cached element references -----*/
-// event listeners on the wires
-let wireboxEl = null
-
-
-let wires = []
-
-
-// backdrop images
-
-// timer
-let timerEl = null
-
-
-// reset button
-let resetButtonEl = null
-
+// Functions and Game Logic
 const updateClock = () => {
     // console.log('countdown the timer');
-    timeRemaining = timeRemaining -1;
-    if (timeRemaining <= 0) {
-        //end game
-    endGame(false); // This ends the game
+    timeRemaining--;
+    if(timeRemaining <= 0) {
+        endGame(false);
     }
-
-
-
+    // Update clock text with the timeRemaining
     timerEl.textContent = "0:00:" + timeRemaining;
 
 } 
 
-// Countdown begins and cutting the wires
+// Handles reset button click
+const resetGame = () => {
 
+    //timeRemaining = INITIAL_TIME;
+    gameOver = false;
+
+    // Step 6: Set the wires <img> src back to the uncut pictures
+    for(wire of wires) {
+        wire.src = `img/uncut-${wire.id}-wire.png`
+    }
+
+
+    // Display the SimCity bg
+    backgroundEl.style.backgroundImage="url(img/simcity.jpg)"
+    
+    // Set the clock text back to red
+    timerEl.style.color = "red";
+    
+    // Clear any intervals or timeouts
+    clearInterval(countdown);
+
+    // re- initializeGame()
+    startGame();
+}
 
 const startGame = () => {
     timeRemaining = INITIAL_TIME;
@@ -78,25 +83,7 @@ for(const color in wireState) {
 }
 
 
-
-/*----- event listeners -----*/
-// event listeners on the wires
-// set intervals
-// will also need to stop
-
-
-// Handles reset button click
-const resetGame = () => {
-    console.log('reset game!');
-
-    //timeRemaining = INITIAL_TIME;
-
-    backgroundEl.style.backgroundImage = "url(img/explosion.jpg)";
-    clearInterval(countdown);
-    startGame();
-}
-
-// handles reset button click
+// handles cut wires
 const cutWire = (event) => {
     let wireColor = event.target.id
     console.log('You cut the', wireColor + ' wire');
@@ -117,16 +104,13 @@ const cutWire = (event) => {
         }
     }
 
-// Cut wires
-
-
-
+// Endgame
 
 const endGame = (isGameWon) => {
     console.log('END GAME 💣')
     // Clear the countdown and update gameOver state variable
     clearInterval(countdown);
-    gameOver = false;
+    gameOver = true;
 
     // If the passed in isGameWon argument is true, set the timer text to green
     // Otherwise, change the background image to the explosion
